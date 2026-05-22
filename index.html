@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>63빌딩 3층 회의실 예약</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">63</span>
+        <div>
+          <h1>3층 회의실 예약</h1>
+          <p class="brand-sub">63빌딩 · 회의실 3 / 4 / 5 / 7</p>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="view-toggle" role="tablist" aria-label="보기 전환">
+          <button id="viewDay" class="view-btn is-active" role="tab">일별</button>
+          <button id="viewWeek" class="view-btn" role="tab">주별</button>
+        </div>
+        <div class="date-nav">
+          <button id="prevDay" class="nav-btn" aria-label="이전">‹</button>
+          <input type="date" id="datePicker" class="date-input" />
+          <button id="nextDay" class="nav-btn" aria-label="다음">›</button>
+          <button id="todayBtn" class="today-btn">오늘</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 설정이 안 됐을 때 안내 배너 -->
+  <div id="setupBanner" class="setup-banner" hidden>
+    <strong>설정이 필요합니다.</strong>
+    <code>config.js</code> 파일에 Supabase URL과 anon key를 넣고,
+    <code>schema.sql</code> 을 Supabase SQL Editor에서 실행하세요.
+  </div>
+
+  <main class="wrap">
+    <!-- 주별 보기에서 회의실 선택 탭 -->
+    <div id="roomTabs" class="room-tabs" hidden></div>
+
+    <div id="board" class="board" hidden>
+      <!-- 시간 눈금 -->
+      <div class="time-gutter" id="timeGutter"></div>
+      <!-- 회의실 컬럼들 -->
+      <div class="rooms" id="rooms"></div>
+    </div>
+    <div id="loading" class="loading">불러오는 중…</div>
+  </main>
+
+  <!-- 예약 모달 -->
+  <div class="modal-backdrop" id="modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h2 id="modalTitle">회의실 예약</h2>
+        <button class="close-btn" id="closeModal" aria-label="닫기">×</button>
+      </div>
+      <form id="bookingForm" class="modal-body">
+        <div class="modal-meta">
+          <span class="chip" id="modalRoom">회의실</span>
+          <span class="chip chip-ghost" id="modalDate">날짜</span>
+        </div>
+
+        <div class="field-row">
+          <label class="field">
+            <span>시작</span>
+            <select id="startTime" required></select>
+          </label>
+          <label class="field">
+            <span>종료</span>
+            <select id="endTime" required></select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>예약자 이름 <em>*</em></span>
+          <input type="text" id="reserverName" placeholder="홍길동" required maxlength="40" />
+        </label>
+
+        <label class="field">
+          <span>부서 <small>(선택)</small></span>
+          <input type="text" id="department" placeholder="기획팀" maxlength="40" />
+        </label>
+
+        <label class="field">
+          <span>회의 제목 <small>(선택)</small></span>
+          <input type="text" id="title" placeholder="주간 회의" maxlength="60" />
+        </label>
+
+        <!-- 중복검사 미리보기 -->
+        <div class="conflict-preview" id="conflictPreview"></div>
+
+        <p class="form-error" id="formError" hidden></p>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="cancelBtn">취소</button>
+          <button type="submit" class="btn-primary" id="submitBtn">예약하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
