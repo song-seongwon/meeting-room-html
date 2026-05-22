@@ -23,6 +23,9 @@
 
 * { box-sizing: border-box; }
 
+/* hidden 속성이 항상 우선하도록 (display 지정한 요소도 확실히 숨김) */
+[hidden] { display: none !important; }
+
 html, body {
   margin: 0;
   background: var(--bg);

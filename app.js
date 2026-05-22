@@ -10,9 +10,9 @@ const ROOMS = [
   { id: "7", name: "회의실 7", color: "var(--room-7)" },
 ];
 
-const START_HOUR = 9;   // 운영 시작 09:00
+const START_HOUR = 8;   // 운영 시작 08:00
 const END_HOUR = 18;    // 운영 종료 18:00
-const SLOT_MIN = 30;    // 30분 단위
+const SLOT_MIN = 60;    // 1시간 단위
 const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
 let sb = null;                 // Supabase client
